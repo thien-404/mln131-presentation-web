@@ -4,6 +4,11 @@ import { quizData } from "../data/quizData";
 import InfoForm from "../components/InfoForm";
 import { Link } from "react-router-dom";
 import useQuizTimer from "../utils/useQuizTimer";
+import { getRandomQuestions } from "../utils/getRandomQuestion";
+import { b } from "framer-motion/client";
+
+// Lấy ngẫu nhiên 15 câu hỏi từ quizData
+const quizDataRandom = getRandomQuestions(quizData, 15);
 
 export default function Quiz() {
   const [info, setInfo] = useState({ name: "", score: 0, time: 0 });
@@ -12,9 +17,15 @@ export default function Quiz() {
   const [selected, setSelected] = useState("");
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [feedback, setFeedback] = useState(null);
 
-  const question = quizData[current];
+  const question = quizDataRandom[current];
   const { seconds, formatTime, setSeconds } = useQuizTimer(isStarted);
+
+  const shakeAnimation = {
+    x: [0, -8, 8, -6, 6, -4, 4, 0],
+    transition: { duration: 0.4 },
+  };
 
   const handleAnswer = (value) => {
     let isCorrect = false;
@@ -27,16 +38,26 @@ export default function Quiz() {
 
     if (isCorrect) {
       setScore(score + 1);
+      setFeedback("correct");
+    } else {
+      setFeedback("wrong");
     }
 
-    if (current + 1 < quizData.length) {
-      setCurrent(current + 1);
-      setSelected("");
-    } else {
-      setFinished(true);
-      setInfo({ ...info, score: score, time: formatTime() });
-      // Gọi API để lưu điểm
-    }
+    setTimeout(() => {
+      if (current + 1 < quizDataRandom.length) {
+        setCurrent((prev) => prev + 1);
+        setSelected("");
+        setFeedback(null);
+      } else {
+        setFinished(true);
+        setInfo({
+          ...info,
+          score: score + (isCorrect ? 1 : 0),
+          time: formatTime(),
+        });
+        // Gọi API lưu điểm ở đây
+      }
+    }, 1000);
   };
 
   return (
@@ -45,8 +66,15 @@ export default function Quiz() {
         Quiz kiến thức Mác Lê Nin
       </h2>
       <div className="mb-4 text-lg font-sans">
-        <span className="mr-6">Thời gian: {finished ? info.time : formatTime()}</span>
-        <span className="mr-6">Câu hỏi: {current + 1}/{quizData.length}</span>
+        <span className="mr-6">
+          Thời gian: {finished ? info.time : formatTime()}
+        </span>
+        <span className="mr-6">
+          Câu hỏi: {current + 1}/{quizDataRandom.length}
+        </span>
+        <span className="mr-6">
+          Diểm: {score}/{quizDataRandom.length}
+        </span>
       </div>
 
       {!isStarted ? (
@@ -77,13 +105,19 @@ export default function Quiz() {
                   whileTap={{ scale: 0.95 }}
                   className={`w-full px-4 py-2 rounded-lg border ${
                     selected === opt
-                      ? "bg-[#FFD700] text-black font-semibold"
+                      ? feedback === "correct"
+                        ? "bg-green-500 text-white"
+                        : feedback === "wrong"
+                        ? "bg-red-500 text-white"
+                        : "bg-[#FFD700] text-black font-semibold"
                       : "bg-gray-100 hover:bg-gray-200"
                   }`}
                   onClick={() => {
                     setSelected(opt);
                     handleAnswer(opt);
                   }}
+                  disabled={!!feedback}
+                  animate={feedback === "wrong" ? shakeAnimation : {}}
                 >
                   {opt}
                 </motion.button>
@@ -101,13 +135,19 @@ export default function Quiz() {
                   whileTap={{ scale: 0.95 }}
                   className={`px-6 py-2 rounded-lg border ${
                     selected === val
-                      ? "bg-[#FFD700] text-black font-semibold"
+                      ? feedback === "correct"
+                        ? "bg-green-500 text-white"
+                        : feedback === "wrong"
+                        ? "bg-red-500 text-white"
+                        : "bg-[#FFD700] text-black font-semibold"
                       : "bg-gray-100 hover:bg-gray-200"
                   }`}
                   onClick={() => {
                     setSelected(val);
                     handleAnswer(val);
                   }}
+                  disabled={!!feedback}
+                  animate={feedback === "wrong" ? shakeAnimation : {}}
                 >
                   {val}
                 </motion.button>
@@ -118,12 +158,25 @@ export default function Quiz() {
           {/* Fill in the blank */}
           {question.type === "fillblank" && (
             <div className="mt-4">
-              <input
+              <motion.input
                 type="text"
-                className="border px-3 py-2 rounded-lg w-full"
+                className={`border px-3 py-2 rounded-lg w-full transition-colors duration-300
+                            ${
+                              feedback === "correct"
+                                ? "border-green-500 bg-green-100"
+                                : ""
+                            }
+                            ${
+                              feedback === "wrong"
+                                ? "border-red-500 bg-red-100"
+                                : ""
+                            }
+                          `}
                 placeholder="Nhập câu trả lời..."
                 value={selected}
                 onChange={(e) => setSelected(e.target.value)}
+                disabled={!!feedback}
+                animate={feedback === "wrong" ? shakeAnimation : {}}
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -149,10 +202,34 @@ export default function Quiz() {
 
           {/* data để test - sau này thay bằng API */}
           {[
-            { id: 1, name: "Nguyễn Văn A", score: 14, total: quizData.length, time: "00:02:30" },
-            { id: 2, name: "Trần Thị B", score: 12, total: quizData.length, time: "00:03:10" },
-            { id: 3, name: "Lê Văn C", score: 10, total: quizData.length, time: "00:04:00" },
-            { id: 4, name: info.name, score: info.score, total: quizData.length, time: info.time }, // người chơi hiện tại
+            {
+              id: 1,
+              name: "Nguyễn Văn A",
+              score: 14,
+              total: quizDataRandom.length,
+              time: "00:02:30",
+            },
+            {
+              id: 2,
+              name: "Trần Thị B",
+              score: 12,
+              total: quizDataRandom.length,
+              time: "00:03:10",
+            },
+            {
+              id: 3,
+              name: "Lê Văn C",
+              score: 10,
+              total: quizDataRandom.length,
+              time: "00:04:00",
+            },
+            {
+              id: 4,
+              name: info.name,
+              score: info.score,
+              total: quizDataRandom.length,
+              time: info.time,
+            }, // người chơi hiện tại
           ].map((player, idx) => (
             <div
               key={player.id}
@@ -168,9 +245,7 @@ export default function Quiz() {
               <span>
                 {player.score}/{player.total}
               </span>
-              <span>
-                {player.time}
-              </span>
+              <span>{player.time}</span>
             </div>
           ))}
 
