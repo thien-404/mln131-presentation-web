@@ -23,8 +23,8 @@ export default function QuizPlaceholderSlide({ currentIndex, totalSlides }) {
             Quiz sẽ được nối ở pha sau
           </h2>
           <p className="mt-5 max-w-3xl text-base leading-8 text-[#f2dab0]/84 sm:text-lg">
-            Slide này giữ chỗ cho phần luyện tập cuối deck. Engine điều hướng đã sẵn sàng, nên lúc
-            có nội dung mới chỉ cần thay component mà không đổi flow tổng.
+            Slide này giữ chỗ cho phần luyện tập cuối deck. Engine điều hướng đã sẵn sàng, nên lúc có
+            nội dung mới chỉ cần thay component mà không đổi flow tổng.
           </p>
         </div>
 
@@ -44,7 +44,7 @@ export default function QuizPlaceholderSlide({ currentIndex, totalSlides }) {
                   Placeholder contract
                 </div>
                 <p className="mt-3 text-base leading-7 text-[#f8dfb7]/84">
-                  Giữ id quiz-placeholder để sau này swap sang quiz flow thật mà không phải đổi lại
+                  Giữ id `quiz-placeholder` để sau này swap sang quiz flow thật mà không phải đổi lại
                   manifest hay thứ tự deck.
                 </p>
               </div>
@@ -64,7 +64,7 @@ export default function QuizPlaceholderSlide({ currentIndex, totalSlides }) {
               <div className="rounded-[1.4rem] border border-[#e3af64]/18 bg-[#ffffff08] p-4">
                 <div className="flex items-center gap-3 text-[#f2bc67]">
                   <ListChecks className="h-5 w-5" strokeWidth={1.8} />
-                  <span className="text-sm font-semibold uppercase tracking-[0.18em]">No extra route</span>
+                  <span className="text-sm font-semibold uppercase tracking-[0.18em]">Same deck</span>
                 </div>
                 <p className="mt-3 text-sm leading-7 text-[#f6ddaf]/78">
                   Quiz sẽ chạy ngay trong deck, không quay về mô hình quiz route cũ.

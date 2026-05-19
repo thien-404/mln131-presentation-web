@@ -1,5 +1,5 @@
 import { motion as Motion } from "framer-motion";
-import { ImagePlus, LayoutTemplate, PanelsTopLeft, ScrollText } from "lucide-react";
+import { ImagePlus, LayoutTemplate, PanelsTopLeft, ScanSearch } from "lucide-react";
 
 export default function ContentPlaceholderSlide({ slide, currentIndex, totalSlides }) {
   return (
@@ -27,7 +27,7 @@ export default function ContentPlaceholderSlide({ slide, currentIndex, totalSlid
               {slide.status}
             </div>
             <div className="mt-2">Reference asset: {slide.referenceAsset ?? "awaiting-user-image"}</div>
-            <div className="mt-1">Hybrid scroll: {slide.allowScroll ? "enabled" : "disabled"}</div>
+            <div className="mt-1">Viewport mode: auto-fit</div>
           </div>
         </div>
 
@@ -45,8 +45,8 @@ export default function ContentPlaceholderSlide({ slide, currentIndex, totalSlid
                 </div>
                 <h3 className="mt-5 text-2xl font-semibold text-[#fff0cd]">Chờ ảnh reference từ bạn</h3>
                 <p className="mt-3 max-w-md text-sm leading-7 text-[#f4dbb2]/76 sm:text-base">
-                  Slide shell này đã sẵn structure, animation frame và vùng trình bày. Khi có ảnh
-                  mẫu, chỉ cần thay component visual mà không đổi engine.
+                  Slide shell này đã sẵn structure, animation frame và vùng trình bày. Khi có ảnh mẫu,
+                  chỉ cần thay component visual mà không đổi engine.
                 </p>
               </div>
             </div>
@@ -64,11 +64,12 @@ export default function ContentPlaceholderSlide({ slide, currentIndex, totalSlid
 
               <div className="rounded-[1.35rem] border border-[#e3af64]/18 bg-[#ffffff08] p-4">
                 <div className="flex items-center gap-3 text-[#f2bc67]">
-                  <ScrollText className="h-5 w-5" strokeWidth={1.8} />
-                  <span className="text-sm font-semibold uppercase tracking-[0.18em]">Hybrid mode</span>
+                  <ScanSearch className="h-5 w-5" strokeWidth={1.8} />
+                  <span className="text-sm font-semibold uppercase tracking-[0.18em]">Viewport fit</span>
                 </div>
                 <p className="mt-3 text-sm leading-7 text-[#f6ddaf]/78">
-                  Nội dung dài sẽ scroll bên trong slide thay vì kéo toàn trang.
+                  Deck hiện tại ưu tiên auto-fit để slide nằm gọn trong khung trình chiếu thay vì kéo
+                  nội dung theo chiều dọc.
                 </p>
               </div>
             </div>

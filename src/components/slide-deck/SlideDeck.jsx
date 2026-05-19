@@ -1,6 +1,15 @@
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion as Motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Keyboard } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Expand,
+  Keyboard,
+  Minimize,
+} from "lucide-react";
 import useSlideDeck from "../../hooks/useSlideDeck";
+import useFullscreen from "../../hooks/useFullscreen";
+import SlideAutoFitFrame from "./SlideAutoFitFrame";
 
 const slideVariants = {
   enter: (direction) => ({
@@ -26,7 +35,15 @@ const statusLabels = {
   placeholder: "Placeholder",
 };
 
+const NAV_IDLE_MS = 2400;
+
 export default function SlideDeck({ slides = [] }) {
+  const deckRef = useRef(null);
+  const navRef = useRef(null);
+  const idleTimerRef = useRef(null);
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [isNavPinned, setIsNavPinned] = useState(false);
+
   const {
     currentIndex,
     totalSlides,
@@ -37,17 +54,74 @@ export default function SlideDeck({ slides = [] }) {
     isFirst,
     isLast,
   } = useSlideDeck(slides.length);
+  const { isSupported, isFullscreen, toggleFullscreen } = useFullscreen(deckRef);
 
   const activeSlide = slides[currentIndex];
   const ActiveSlideComponent = activeSlide?.component;
   const counter = `${String(currentIndex + 1).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}`;
+  const fullscreenLabel = isFullscreen ? "Exit Fullscreen" : "Fullscreen";
+
+  useEffect(() => {
+    const clearIdleTimer = () => {
+      if (idleTimerRef.current) {
+        window.clearTimeout(idleTimerRef.current);
+        idleTimerRef.current = null;
+      }
+    };
+
+    const scheduleHide = () => {
+      clearIdleTimer();
+
+      if (isNavPinned) {
+        return;
+      }
+
+      idleTimerRef.current = window.setTimeout(() => {
+        setIsNavVisible(false);
+      }, NAV_IDLE_MS);
+    };
+
+    const revealNav = () => {
+      setIsNavVisible(true);
+      scheduleHide();
+    };
+
+    const handlePointerMove = (event) => {
+      if (window.innerWidth >= 1024 && event.clientY > window.innerHeight - 120) {
+        revealNav();
+        return;
+      }
+
+      revealNav();
+    };
+
+    const handleTouchStart = () => {
+      revealNav();
+    };
+
+    const handleKeyDown = () => {
+      revealNav();
+    };
+
+    revealNav();
+    window.addEventListener("mousemove", handlePointerMove, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      clearIdleTimer();
+      window.removeEventListener("mousemove", handlePointerMove);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [currentIndex, isNavPinned]);
 
   if (!activeSlide || !ActiveSlideComponent) {
     return null;
   }
 
   return (
-    <main className="relative h-screen overflow-hidden bg-[#13040f] text-[#f7e7c3]">
+    <main ref={deckRef} className="relative h-screen overflow-hidden bg-[#13040f] text-[#f7e7c3]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(150,25,17,0.34),transparent_32%),radial-gradient(circle_at_82%_18%,rgba(33,74,194,0.2),transparent_26%),linear-gradient(135deg,#27050c_0%,#15040d_48%,#0b122f_100%)]" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-[radial-gradient(circle_at_bottom,rgba(198,69,26,0.22),transparent_52%)]" />
 
@@ -59,15 +133,40 @@ export default function SlideDeck({ slides = [] }) {
               Slide Deck
             </div>
 
-            <div className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-[#d79957]/25 bg-[#0e0611]/58 px-4 py-2 text-sm text-[#f7e4ba] backdrop-blur-xl">
-              <Keyboard className="h-4 w-4 text-[#efb35e]" strokeWidth={1.8} />
-              <span className="hidden sm:inline">Use ← → để chuyển slide</span>
-              <span className="font-semibold tracking-[0.16em] text-[#ffdeab]">{counter}</span>
+            <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-[#d79957]/25 bg-[#0e0611]/58 px-3 py-2 text-sm text-[#f7e4ba] backdrop-blur-xl sm:px-4">
+              <div className="inline-flex items-center gap-3">
+                <Keyboard className="h-4 w-4 text-[#efb35e]" strokeWidth={1.8} />
+                <span className="hidden sm:inline">Use Left/Right to change slides</span>
+                <span className="font-semibold tracking-[0.16em] text-[#ffdeab]">{counter}</span>
+              </div>
+
+              <span className="hidden h-5 w-px bg-[#ffffff12] sm:block" />
+
+              <button
+                type="button"
+                onClick={() => {
+                  void toggleFullscreen();
+                }}
+                disabled={!isSupported}
+                aria-pressed={isFullscreen}
+                className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition sm:text-sm ${
+                  isSupported
+                    ? "border-[#e0ab62]/38 bg-[#ffffff08] text-[#fde3b4] hover:-translate-y-0.5 hover:bg-[#ffffff10]"
+                    : "border-[#ffffff10] bg-[#ffffff08] text-[#9f8b74]"
+                }`}
+              >
+                {isFullscreen ? (
+                  <Minimize className="h-4 w-4 text-[#efb35e]" strokeWidth={1.8} />
+                ) : (
+                  <Expand className="h-4 w-4 text-[#efb35e]" strokeWidth={1.8} />
+                )}
+                <span>{isSupported ? fullscreenLabel : "Unavailable"}</span>
+              </button>
             </div>
           </div>
         </header>
 
-        <div className="relative flex-1 overflow-hidden px-2 pb-28 pt-16 sm:px-4 sm:pb-32 sm:pt-20 lg:px-6">
+        <div className="relative flex-1 overflow-hidden px-2 pb-32 pt-16 sm:px-4 sm:pb-36 sm:pt-20 lg:px-6 lg:pb-40">
           <div className="relative mx-auto h-full max-w-[1700px]">
             <AnimatePresence initial={false} mode="wait" custom={direction}>
               <Motion.section
@@ -81,16 +180,14 @@ export default function SlideDeck({ slides = [] }) {
                 className="absolute inset-0"
               >
                 <div className="h-full overflow-hidden rounded-[2rem] border border-[#d39a52]/40 bg-[linear-gradient(180deg,rgba(18,4,12,0.82),rgba(8,6,18,0.86))] shadow-[0_24px_80px_rgba(0,0,0,0.42)] ring-1 ring-[#f1c277]/10">
-                  <div
-                    className={`h-full overscroll-contain ${
-                      activeSlide.allowScroll ? "overflow-y-auto" : "overflow-hidden"
-                    }`}
-                  >
+                  <div className="h-full overflow-hidden">
+                    <SlideAutoFitFrame slideId={activeSlide.id}>
                     <ActiveSlideComponent
                       slide={activeSlide}
                       currentIndex={currentIndex}
                       totalSlides={totalSlides}
                     />
+                    </SlideAutoFitFrame>
                   </div>
                 </div>
               </Motion.section>
@@ -98,7 +195,32 @@ export default function SlideDeck({ slides = [] }) {
           </div>
         </div>
 
-        <nav className="absolute inset-x-0 bottom-0 z-20 px-4 pb-4 sm:px-6 lg:px-8">
+        <Motion.nav
+          ref={navRef}
+          initial={false}
+          animate={{
+            y: isNavVisible ? 0 : 96,
+            opacity: isNavVisible ? 1 : 0.72,
+          }}
+          transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+          onMouseEnter={() => {
+            setIsNavPinned(true);
+            setIsNavVisible(true);
+          }}
+          onMouseLeave={() => {
+            setIsNavPinned(false);
+          }}
+          onFocusCapture={() => {
+            setIsNavPinned(true);
+            setIsNavVisible(true);
+          }}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              setIsNavPinned(false);
+            }
+          }}
+          className="absolute inset-x-0 bottom-0 z-20 px-4 pb-4 sm:px-6 lg:px-8"
+        >
           <div className="mx-auto max-w-[1680px] rounded-[1.8rem] border border-[#d39a52]/25 bg-[#12030d]/72 shadow-[0_14px_60px_rgba(0,0,0,0.35)] backdrop-blur-2xl">
             <div className="flex flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
               <div className="overflow-x-auto">
@@ -162,7 +284,7 @@ export default function SlideDeck({ slides = [] }) {
               </div>
             </div>
           </div>
-        </nav>
+        </Motion.nav>
       </div>
     </main>
   );
