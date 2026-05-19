@@ -117,7 +117,7 @@ function CenterCore() {
         <Flag className="-mt-12 ml-14 h-7 w-7 text-[#efb566] sm:-mt-14 sm:ml-18 sm:h-8 sm:w-8 xl:-mt-16 xl:ml-22 xl:h-9 xl:w-9" strokeWidth={1.6} />
         <h2
           className="mt-4 text-[clamp(2.6rem,5vw,4.8rem)] font-bold leading-none tracking-[-0.04em]"
-          style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+          style={{ fontFamily: "'Playfair Display', 'Georgia', serif" }}
         >
           Dân chủ
         </h2>
@@ -167,7 +167,7 @@ export default function MarxLeninDemocracySlide() {
           <Motion.div variants={fadeUpVariants} className="mt-6 sm:mt-8">
             <h1
               className="max-w-5xl text-[clamp(2.5rem,5vw,5rem)] font-bold leading-[0.9] tracking-[-0.045em] text-[#fbe1ac] drop-shadow-[0_10px_24px_rgba(42,7,11,0.3)]"
-              style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+              style={{ fontFamily: "'Playfair Display', 'Georgia', serif" }}
             >
               Dân chủ theo
               <br />

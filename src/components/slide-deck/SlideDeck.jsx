@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import useSlideDeck from "../../hooks/useSlideDeck";
 import useFullscreen from "../../hooks/useFullscreen";
-import SlideAutoFitFrame from "./SlideAutoFitFrame";
 
 const slideVariants = {
   enter: (direction) => ({
@@ -180,14 +179,16 @@ export default function SlideDeck({ slides = [] }) {
                 className="absolute inset-0"
               >
                 <div className="h-full overflow-hidden rounded-[2rem] border border-[#d39a52]/40 bg-[linear-gradient(180deg,rgba(18,4,12,0.82),rgba(8,6,18,0.86))] shadow-[0_24px_80px_rgba(0,0,0,0.42)] ring-1 ring-[#f1c277]/10">
-                  <div className="h-full overflow-hidden">
-                    <SlideAutoFitFrame slideId={activeSlide.id}>
+                  <div
+                    className={`h-full overscroll-contain ${
+                      activeSlide.allowScroll ? "overflow-y-auto" : "overflow-hidden"
+                    }`}
+                  >
                     <ActiveSlideComponent
                       slide={activeSlide}
                       currentIndex={currentIndex}
                       totalSlides={totalSlides}
                     />
-                    </SlideAutoFitFrame>
                   </div>
                 </div>
               </Motion.section>

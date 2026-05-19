@@ -13,7 +13,7 @@ export default function ContentPlaceholderSlide({ slide, currentIndex, totalSlid
             </div>
             <h2
               className="mt-5 text-4xl font-bold leading-tight text-[#fff0cd] sm:text-5xl"
-              style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+              style={{ fontFamily: "'Playfair Display', 'Georgia', serif" }}
             >
               {slide.title}
             </h2>

@@ -88,7 +88,7 @@ export default function OpeningSlide() {
           <div className="mt-8 max-w-4xl">
             <h1
               className="text-[clamp(4rem,8vw,7.6rem)] font-bold leading-[0.84] tracking-[-0.055em] text-[#fbe1ac] drop-shadow-[0_12px_24px_rgba(42,7,11,0.35)]"
-              style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+              style={{ fontFamily: "'Playfair Display', 'Georgia', serif" }}
             >
               Dân chủ và
               <br />

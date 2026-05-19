@@ -18,7 +18,7 @@ export default function QuizPlaceholderSlide({ currentIndex, totalSlides }) {
           </div>
           <h2
             className="mt-6 text-4xl font-bold leading-tight text-[#fff0cd] sm:text-6xl"
-            style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+            style={{ fontFamily: "'Playfair Display', 'Georgia', serif" }}
           >
             Quiz sẽ được nối ở pha sau
           </h2>

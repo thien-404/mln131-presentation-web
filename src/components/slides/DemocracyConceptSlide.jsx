@@ -167,7 +167,7 @@ export default function DemocracyConceptSlide() {
             <Motion.div variants={fadeUpVariants} className="mt-6 sm:mt-8">
               <h1
                 className="max-w-4xl text-[clamp(3.6rem,8vw,7rem)] font-bold leading-[0.85] tracking-[-0.05em] text-[#fbe1ac] drop-shadow-[0_10px_24px_rgba(42,7,11,0.3)]"
-                style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+                style={{ fontFamily: "'Playfair Display', 'Georgia', serif" }}
               >
                 Khái niệm
                 <br />
