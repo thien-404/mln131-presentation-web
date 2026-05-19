@@ -1,2 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;600i;700&display=swap");
 @import "tailwindcss";
 
+:root {
+  color: #f7e8c6;
+  background:
+    radial-gradient(circle at top, rgba(140, 22, 18, 0.42), transparent 32%),
+    radial-gradient(circle at 85% 18%, rgba(41, 76, 194, 0.24), transparent 24%),
+    linear-gradient(135deg, #25070f 0%, #17040e 46%, #0a1029 100%);
+  font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top, rgba(140, 22, 18, 0.42), transparent 32%),
+    radial-gradient(circle at 85% 18%, rgba(41, 76, 194, 0.24), transparent 24%),
+    linear-gradient(135deg, #25070f 0%, #17040e 46%, #0a1029 100%);
+  color: #f7e8c6;
+  overscroll-behavior: none;
+}
+
+body,
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+#root {
+  height: 100%;
+  isolation: isolate;
+}
+
+::selection {
+  background: rgba(247, 192, 99, 0.92);
+  color: #1f0910;
+}
