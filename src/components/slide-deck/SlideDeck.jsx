@@ -136,11 +136,6 @@ export default function SlideDeck({ slides = [] }) {
   );
 
   useEffect(() => {
-    const revealBars = () => {
-      revealTopBar({ temporary: true });
-      revealBottomBar({ temporary: true });
-    };
-
     const handlePointerMove = (event) => {
       const isNearTop = event.clientY <= TOP_REVEAL_EDGE;
       const isNearBottom = event.clientY >= window.innerHeight - BOTTOM_REVEAL_EDGE;
@@ -158,24 +153,12 @@ export default function SlideDeck({ slides = [] }) {
       }
     };
 
-    const handleTouchStart = () => {
-      revealBars();
-    };
-
-    const handleKeyDown = () => {
-      revealBars();
-    };
-
     window.addEventListener("mousemove", handlePointerMove, { passive: true });
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
       clearTopIdleTimer();
       clearBottomIdleTimer();
       window.removeEventListener("mousemove", handlePointerMove);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [
     clearBottomIdleTimer,
