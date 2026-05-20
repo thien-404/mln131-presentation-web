@@ -12,7 +12,7 @@ import {
   Target,
   Vote,
 } from "lucide-react";
-import openingBase from "../../assets/slide-opening-base.svg";
+import SlideBackdrop from "./shared/SlideBackdrop";
 
 const displaySerifStyle = {
   fontFamily: "'Playfair Display', 'Georgia', serif",
@@ -440,11 +440,7 @@ export default function CentralizedDemocracySlide() {
       className="relative h-full overflow-hidden text-[#f8e2af]"
       style={{ perspective: 1800 }}
     >
-      <img
-        src={openingBase}
-        alt="Slide nguyên tắc tập trung dân chủ"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <SlideBackdrop variant="centralized" />
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_34%,rgba(255,92,27,0.17),transparent_24%),radial-gradient(circle_at_88%_48%,rgba(28,95,214,0.16),transparent_22%),linear-gradient(180deg,rgba(4,7,20,0.08),rgba(4,7,20,0.2))]" />
       <div className="absolute inset-y-[2%] right-[-8%] hidden w-[34%] rounded-full border border-[#d59a52]/12 lg:block" />

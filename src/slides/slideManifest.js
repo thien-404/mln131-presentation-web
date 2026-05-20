@@ -6,6 +6,7 @@ import HoChiMinhDemocracySlide from "../components/slides/HoChiMinhDemocracySlid
 import SocialistDemocracySlide from "../components/slides/SocialistDemocracySlide";
 import PartyAwarenessSlide from "../components/slides/PartyAwarenessSlide";
 import PrimitiveSocietyDemocracySlide from "../components/slides/PrimitiveSocietyDemocracySlide";
+import SlaveSocietyDemocracySlide from "../components/slides/SlaveSocietyDemocracySlide";
 
 export const slideManifest = [
   {
@@ -71,5 +72,13 @@ export const slideManifest = [
     allowScroll: true,
     status: "ready",
     referenceAsset: "primitive-society-democracy-v1",
+  },
+  {
+    id: "content-08",
+    label: "Chiếm hữu nô lệ",
+    component: SlaveSocietyDemocracySlide,
+    allowScroll: true,
+    status: "ready",
+    referenceAsset: "slave-society-democracy-v1",
   },
 ];

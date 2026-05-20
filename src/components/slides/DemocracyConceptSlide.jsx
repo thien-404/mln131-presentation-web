@@ -8,7 +8,7 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
-import openingBase from "../../assets/slide-opening-base.svg";
+import SlideBackdrop from "./shared/SlideBackdrop";
 
 const shellVariants = {
   hidden: {},
@@ -139,11 +139,7 @@ function ConceptCard({ icon: Icon, title, index }) {
 export default function DemocracyConceptSlide() {
   return (
     <section className="relative min-h-full overflow-hidden text-[#f8e2af]">
-      <img
-        src={openingBase}
-        alt="Slide khái niệm dân chủ"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <SlideBackdrop variant="concept" />
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_28%,rgba(255,107,36,0.18),transparent_28%),radial-gradient(circle_at_88%_18%,rgba(75,108,255,0.18),transparent_22%),linear-gradient(90deg,rgba(49,7,6,0.1),rgba(49,7,6,0)_24%)]" />
 

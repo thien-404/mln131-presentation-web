@@ -1,6 +1,6 @@
 import { motion as Motion, useIsPresent } from "framer-motion";
 import { Building2, Network, Star, Users } from "lucide-react";
-import openingBase from "../../assets/slide-opening-base.svg";
+import SlideBackdrop from "./shared/SlideBackdrop";
 
 const displaySerifStyle = {
   fontFamily: "'Playfair Display', 'Georgia', serif",
@@ -450,11 +450,7 @@ export default function HoChiMinhDemocracySlide() {
       className="relative h-full overflow-hidden text-[#f8e2af]"
       style={{ perspective: 1800 }}
     >
-      <img
-        src={openingBase}
-        alt="Slide tư tưởng Hồ Chí Minh về dân chủ"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <SlideBackdrop variant="hoChiMinh" />
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_44%,rgba(255,88,24,0.2),transparent_28%),radial-gradient(circle_at_88%_46%,rgba(38,92,216,0.18),transparent_26%),linear-gradient(180deg,rgba(5,7,20,0.06),rgba(5,7,20,0.18))]" />
       <div className="absolute inset-y-0 left-0 w-[42%] bg-[linear-gradient(90deg,rgba(62,10,10,0.26),transparent)]" />

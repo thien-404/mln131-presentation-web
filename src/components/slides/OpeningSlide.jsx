@@ -7,7 +7,7 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
-import openingBase from "../../assets/slide-opening-base.svg";
+import SlideBackdrop from "./shared/SlideBackdrop";
 
 const orbitItems = [
   {
@@ -67,11 +67,7 @@ function Spark({ className, delay }) {
 export default function OpeningSlide() {
   return (
     <section className="relative min-h-full overflow-hidden text-[#f8e2af]">
-      <img
-        src={openingBase}
-        alt="Poster mở đầu cho chủ đề Dân chủ và dân chủ xã hội chủ nghĩa"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <SlideBackdrop variant="opening" />
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_28%,rgba(255,115,37,0.12),transparent_28%),radial-gradient(circle_at_86%_22%,rgba(75,108,255,0.18),transparent_22%)]" />
       <div className="absolute inset-y-0 left-0 w-[58%] bg-[linear-gradient(90deg,rgba(48,6,7,0.28),rgba(48,6,7,0.12),transparent)]" />

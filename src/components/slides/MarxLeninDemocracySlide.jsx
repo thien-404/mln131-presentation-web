@@ -8,7 +8,7 @@ import {
   Star,
   Users,
 } from "lucide-react";
-import openingBase from "../../assets/slide-opening-base.svg";
+import SlideBackdrop from "./shared/SlideBackdrop";
 
 const shellVariants = {
   hidden: {},
@@ -145,11 +145,7 @@ function DesktopConnectors() {
 export default function MarxLeninDemocracySlide() {
   return (
     <section className="relative min-h-full overflow-hidden text-[#f8e2af]">
-      <img
-        src={openingBase}
-        alt="Slide dân chủ theo quan điểm Mác - Lênin"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <SlideBackdrop variant="marxLenin" />
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_22%,rgba(255,108,36,0.16),transparent_28%),radial-gradient(circle_at_86%_18%,rgba(75,108,255,0.16),transparent_22%)]" />
 

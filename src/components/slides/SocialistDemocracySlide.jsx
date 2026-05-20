@@ -7,7 +7,7 @@ import {
   Shield,
   Users,
 } from "lucide-react";
-import openingBase from "../../assets/slide-opening-base.svg";
+import SlideBackdrop from "./shared/SlideBackdrop";
 
 const displaySerifStyle = {
   fontFamily: "'Playfair Display', 'Georgia', serif",
@@ -461,11 +461,7 @@ export default function SocialistDemocracySlide() {
       className="relative h-full overflow-hidden text-[#f8e2af]"
       style={{ perspective: 1800 }}
     >
-      <img
-        src={openingBase}
-        alt="Slide dân chủ xã hội chủ nghĩa"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <SlideBackdrop variant="socialist" />
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_54%,rgba(255,88,26,0.18),transparent_26%),radial-gradient(circle_at_88%_54%,rgba(35,97,221,0.16),transparent_24%),linear-gradient(180deg,rgba(5,7,20,0.08),rgba(5,7,20,0.18))]" />
       <div className="absolute inset-y-0 left-0 w-[38%] bg-[linear-gradient(90deg,rgba(62,10,10,0.22),transparent)]" />
