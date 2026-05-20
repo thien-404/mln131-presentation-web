@@ -1,6 +1,5 @@
 import { motion as Motion, useIsPresent } from "framer-motion";
-import { useId } from "react";
-import { HardHat, Landmark, Scale, Star, UsersRound } from "lucide-react";
+import { Star } from "lucide-react";
 import slide11Background from "../../background/slide11bg.png";
 
 const displaySerifStyle = {
@@ -24,7 +23,7 @@ const shellVariants = {
       ease: [0.22, 1, 0.36, 1],
       when: "beforeChildren",
       staggerChildren: 0.07,
-      delayChildren: 0.06,
+      delayChildren: 0.05,
     },
   },
   exit: {
@@ -60,15 +59,15 @@ const titleVariants = {
 };
 
 const dividerVariants = {
-  hidden: { opacity: 0, scaleX: 0.76 },
+  hidden: { opacity: 0, scaleX: 0.68 },
   show: {
     opacity: 1,
     scaleX: 1,
-    transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.62, ease: [0.22, 1, 0.36, 1] },
   },
   exit: {
     opacity: 0,
-    scaleX: 0.82,
+    scaleX: 0.8,
     transition: { duration: 0.18, ease: [0.4, 0, 1, 1] },
   },
 };
@@ -76,10 +75,10 @@ const dividerVariants = {
 const cardVariants = {
   hidden: (index) => ({
     opacity: 0,
-    x: index === 0 ? -40 : index === 3 ? 40 : 0,
-    y: 24,
-    scale: 0.97,
-    filter: "blur(8px)",
+    x: index === 0 ? -46 : index === 3 ? 46 : 0,
+    y: 34,
+    scale: 0.965,
+    filter: "blur(9px)",
   }),
   show: (index) => ({
     opacity: 1,
@@ -88,15 +87,15 @@ const cardVariants = {
     scale: 1,
     filter: "blur(0px)",
     transition: {
-      duration: 0.66,
-      delay: 0.1 + index * 0.08,
+      duration: 0.68,
+      delay: 0.12 + index * 0.08,
       ease: [0.22, 1, 0.36, 1],
     },
   }),
   exit: (index) => ({
     opacity: 0,
-    x: index === 0 ? -22 : index === 3 ? 22 : 0,
-    y: 16,
+    x: index === 0 ? -24 : index === 3 ? 24 : 0,
+    y: 18,
     scale: 0.965,
     filter: "blur(8px)",
     transition: { duration: 0.22, ease: [0.4, 0, 1, 1] },
@@ -104,109 +103,157 @@ const cardVariants = {
 };
 
 const ambientDots = [
-  { className: "left-[2.1%] top-[12%]", color: "bg-[#ff6f32]/82", size: "h-1 w-1", delay: 0.08 },
-  { className: "left-[7.2%] top-[22%]", color: "bg-[#ff8a42]/78", size: "h-1.5 w-1.5", delay: 0.34 },
-  { className: "left-[6%] bottom-[18%]", color: "bg-[#ff5c24]/76", size: "h-1 w-1", delay: 0.82 },
-  { className: "right-[8.5%] top-[26%]", color: "bg-[#4d7dff]/80", size: "h-1.5 w-1.5", delay: 0.22 },
-  { className: "right-[4.6%] bottom-[20%]", color: "bg-[#3c73ff]/74", size: "h-1 w-1", delay: 0.92 },
+  { className: "left-[19.2%] top-[11%]", color: "bg-[#ff6c32]/85", size: "h-1.5 w-1.5", delay: 0.08 },
+  { className: "left-[41.2%] top-[23.4%]", color: "bg-[#ff7a35]/90", size: "h-2 w-2", delay: 0.34 },
+  { className: "right-[13.5%] bottom-[38%]", color: "bg-[#ff7b3e]/82", size: "h-1.5 w-1.5", delay: 0.72 },
+  { className: "right-[5%] top-[61.5%]", color: "bg-[#ff8748]/78", size: "h-1 w-1", delay: 1.04 },
 ];
 
 const cardItems = [
   {
     number: "01",
     title: "Nhân dân lao động\ngiành chính quyền",
-    icon: WorkersPowerIcon,
-    desktopClassName: "left-[1.8%] top-[58%] h-[18.2%] w-[24.2%]",
+    icon: PeopleFlagIcon,
   },
   {
     number: "02",
     title: "Hướng tới\ncông bằng xã hội",
-    icon: Scale,
-    desktopClassName: "left-[27.1%] top-[45.5%] h-[17.4%] w-[21.7%]",
+    icon: BalanceScaleIcon,
   },
   {
     number: "03",
     title: "Xóa bỏ\náp bức, bóc lột",
     icon: BrokenChainIcon,
-    desktopClassName: "left-[50.2%] top-[33%] h-[17.4%] w-[21.7%]",
   },
   {
     number: "04",
     title: "Nhân dân tham gia\nquản lý xã hội",
-    icon: PeopleGovernmentIcon,
-    desktopClassName: "left-[73%] top-[20.5%] h-[17.9%] w-[24.6%]",
+    icon: GovernmentPeopleIcon,
   },
 ];
 
-function WorkersPowerIcon({ className = "" }) {
+function PeopleFlagIcon({ className = "" }) {
   return (
-    <div className={`relative ${className}`}>
-      <UsersRound className="h-full w-full" strokeWidth={1.5} />
-      <HardHat
-        className="absolute left-1/2 top-[18%] h-[42%] w-[42%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,190,84,0.1),transparent_70%)] p-[2.5%]"
-        strokeWidth={1.8}
-      />
-    </div>
+    <svg viewBox="0 0 160 120" className={className} aria-hidden="true">
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M72 101V47" strokeWidth="4" />
+        <path d="M75 48c14-9 25 7 40-2v31c-15 9-26-7-40 2Z" strokeWidth="4" />
+        <path d="M32 103V82c0-12 8-20 20-20s20 8 20 20v21" strokeWidth="4" />
+        <path d="M43 103V84" strokeWidth="4" />
+        <circle cx="52" cy="45" r="13" strokeWidth="4" />
+        <path d="M82 103V80c0-13 9-22 22-22s22 9 22 22v23" strokeWidth="4" />
+        <path d="M96 103V84" strokeWidth="4" />
+        <circle cx="104" cy="40" r="14" strokeWidth="4" />
+        <path d="M124 103V86c0-10 7-17 17-17s17 7 17 17v17" strokeWidth="4" />
+        <path d="M137 103V88" strokeWidth="4" />
+        <circle cx="141" cy="55" r="11" strokeWidth="4" />
+      </g>
+    </svg>
+  );
+}
+
+function BalanceScaleIcon({ className = "" }) {
+  return (
+    <svg viewBox="0 0 160 120" className={className} aria-hidden="true">
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M80 24v72" strokeWidth="4.4" />
+        <path d="M57 96h46" strokeWidth="4.4" />
+        <path d="M66 86h28" strokeWidth="4.4" />
+        <path d="M42 34c22-10 54-10 76 0" strokeWidth="4" />
+        <circle cx="80" cy="33" r="6" strokeWidth="4" />
+        <path d="M44 34 24 78h40Z" strokeWidth="4" />
+        <path d="M136 78 116 34 96 78Z" strokeWidth="4" />
+        <path d="M23 78c7 12 34 12 42 0" strokeWidth="4" />
+        <path d="M95 78c7 12 34 12 42 0" strokeWidth="4" />
+        <path d="M42 34 24 78" strokeWidth="4" />
+        <path d="m42 34 22 44" strokeWidth="4" />
+        <path d="M118 34 96 78" strokeWidth="4" />
+        <path d="m118 34 18 44" strokeWidth="4" />
+      </g>
+    </svg>
   );
 }
 
 function BrokenChainIcon({ className = "" }) {
   return (
-    <div className={`relative ${className}`}>
-      <svg viewBox="0 0 64 64" className="h-full w-full" aria-hidden="true">
+    <svg viewBox="0 0 160 120" className={className} aria-hidden="true">
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
         <path
-          d="M17 37.5 8.7 45.8a6.2 6.2 0 0 0 8.8 8.8l8.6-8.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          d="M42 81 27 92c-9 7-22-5-15-15l16-21c6-8 18-10 26-4l10 7"
+          strokeWidth="4.4"
         />
         <path
-          d="m47 26.5 8.3-8.3a6.2 6.2 0 1 0-8.8-8.8L38 18"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          d="m55 72 31-21"
+          strokeWidth="4.4"
         />
         <path
-          d="m22 42 20-20"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.6"
-          strokeLinecap="round"
+          d="m96 58 11 8c8 6 20 4 26-4l16-21c7-10-6-22-15-15l-16 12"
+          strokeWidth="4.4"
         />
         <path
-          d="m28.2 31.8 7.6-7.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.6"
-          strokeLinecap="round"
-          strokeDasharray="5 4"
+          d="m75 78-12 8M90 42l12-8"
+          strokeWidth="4.4"
         />
-        <path
-          d="M30.6 16.8v-6.2M30.6 53.4v-6.2M11.8 32H5.6M55 32h-6.2M18.3 19.8l-4.3-4.3M47 48.5l-4.3-4.3M18.3 44.2l-4.3 4.3M47 15.5l-4.3 4.3"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          opacity="0.82"
-        />
-      </svg>
-    </div>
+        <path d="M79 33V18M79 104V89M49 42 37 30M111 91l-12-12M36 66H20M141 66h-16M52 91l-12 12M112 41l12-12" strokeWidth="3.4" />
+        <path d="M74 63c-3-7 2-15 10-15" strokeWidth="4.4" />
+        <path d="M88 60c3 7-2 15-10 15" strokeWidth="4.4" />
+      </g>
+    </svg>
   );
 }
 
-function PeopleGovernmentIcon({ className = "" }) {
+function GovernmentPeopleIcon({ className = "" }) {
   return (
-    <div className={`relative ${className}`}>
-      <Landmark className="absolute left-1/2 top-[4%] h-[66%] w-[66%] -translate-x-1/2" strokeWidth={1.45} />
-      <UsersRound
-        className="absolute bottom-[4%] left-1/2 h-[38%] w-[60%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,190,84,0.08),transparent_76%)] px-[3%]"
-        strokeWidth={1.5}
-      />
-    </div>
+    <svg viewBox="0 0 160 120" className={className} aria-hidden="true">
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M44 50h72" strokeWidth="4" />
+        <path d="M53 50v33M80 50v33M107 50v33" strokeWidth="4" />
+        <path d="M42 91h76" strokeWidth="4" />
+        <path d="M35 42 80 20l45 22Z" strokeWidth="4" />
+        <path d="M80 20v-17" strokeWidth="4" />
+        <path d="M82 4c7 4 13-2 20 2v15c-7-4-13 2-20-2Z" strokeWidth="3.4" />
+        <circle cx="80" cy="35" r="3.5" fill="currentColor" stroke="none" />
+        <circle cx="80" cy="73" r="13" strokeWidth="4" />
+        <path d="M57 114v-8c0-14 9-22 23-22s23 8 23 22v8" strokeWidth="4" />
+        <path d="M70 114v-9M90 114v-9" strokeWidth="4" />
+        <circle cx="43" cy="80" r="10" strokeWidth="4" />
+        <path d="M21 114v-8c0-12 8-19 22-19 7 0 12 2 16 6" strokeWidth="4" />
+        <path d="M34 114v-8" strokeWidth="4" />
+        <circle cx="117" cy="80" r="10" strokeWidth="4" />
+        <path d="M101 93c4-4 9-6 16-6 14 0 22 7 22 19v8" strokeWidth="4" />
+        <path d="M126 114v-8" strokeWidth="4" />
+      </g>
+    </svg>
+  );
+}
+
+function DecorativeArcs() {
+  const paths = [
+    "M-58 120C110 92 170 4 350-42",
+    "M-44 100C124 76 205-16 390-70",
+    "M-26 78C130 60 228-34 438-94",
+    "M-8 54C148 44 258-48 494-116",
+    "M18 26C168 22 290-70 550-144",
+  ];
+
+  return (
+    <svg
+      viewBox="0 0 560 220"
+      className="pointer-events-none absolute -left-8 -top-9 hidden h-[28%] w-[34%] min-w-[420px] sm:block"
+      aria-hidden="true"
+    >
+      <g fill="none" strokeLinecap="round">
+        {paths.map((path, index) => (
+          <path
+            key={path}
+            d={path}
+            stroke={index % 2 === 0 ? "#ff713b" : "#d53125"}
+            strokeWidth={index === 0 ? 1.4 : 1}
+            opacity={0.52 - index * 0.06}
+          />
+        ))}
+      </g>
+    </svg>
   );
 }
 
@@ -214,14 +261,14 @@ function TitleDivider({ isPresent }) {
   return (
     <Motion.div
       variants={dividerVariants}
-      className="mx-auto mt-2 flex w-full max-w-[820px] items-center gap-3 sm:mt-3"
+      className="mx-auto mt-[clamp(1.1rem,3vh,2rem)] flex w-full max-w-[620px] origin-center items-center gap-5 sm:gap-7"
     >
-      <span className="h-px flex-1 bg-gradient-to-r from-transparent via-[#c87a1d]/85 to-[#f2c55f]" />
+      <span className="h-px flex-1 bg-gradient-to-r from-transparent via-[#b33b25]/75 to-[#ffd35d]" />
 
       <Motion.span
         animate={
           isPresent
-            ? { opacity: [0.62, 1, 0.62], scale: [0.92, 1.08, 0.92] }
+            ? { opacity: [0.66, 1, 0.66], scale: [0.92, 1.12, 0.92], y: [0, -1, 0] }
             : { opacity: 0, scale: 0.82 }
         }
         transition={
@@ -229,39 +276,39 @@ function TitleDivider({ isPresent }) {
             ? { duration: 2.8, repeat: Infinity, ease: "easeInOut" }
             : { duration: 0.18 }
         }
-        className="text-[#f3b744]"
+        className="text-[#ffbe4a] drop-shadow-[0_0_18px_rgba(255,125,48,0.9)]"
       >
-        <Star className="h-5 w-5 fill-current sm:h-6 sm:w-6" strokeWidth={1.8} />
+        <Star className="h-7 w-7 fill-current sm:h-8 sm:w-8" strokeWidth={1.75} />
       </Motion.span>
 
-      <span className="h-px flex-1 bg-gradient-to-l from-transparent via-[#c87a1d]/85 to-[#f2c55f]" />
+      <span className="h-px flex-1 bg-gradient-to-l from-transparent via-[#b33b25]/75 to-[#ffd35d]" />
     </Motion.div>
   );
 }
 
-function StepNumber({ number, isPresent }) {
+function StepBadge({ number, isPresent, index }) {
   return (
     <Motion.div
       animate={
         isPresent
           ? {
               boxShadow: [
-                "0 0 0 rgba(255,170,72,0.08)",
-                "0 0 26px rgba(255,170,72,0.18)",
-                "0 0 0 rgba(255,170,72,0.08)",
+                "0 0 0 rgba(255,126,45,0.12)",
+                "0 0 28px rgba(255,126,45,0.34)",
+                "0 0 0 rgba(255,126,45,0.12)",
               ],
             }
           : { opacity: 0, scale: 0.9 }
       }
       transition={
         isPresent
-          ? { duration: 3.4, repeat: Infinity, ease: "easeInOut" }
+          ? { duration: 3.2, delay: index * 0.14, repeat: Infinity, ease: "easeInOut" }
           : { duration: 0.18 }
       }
-      className="relative flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-full border border-[#f0b64a]/78 bg-[radial-gradient(circle_at_50%_36%,rgba(104,14,20,0.54),rgba(12,10,19,0.94)_76%)] text-[#f8cc63] shadow-[0_0_0_1px_rgba(255,190,102,0.1)] sm:h-[64px] sm:w-[64px] xl:h-[72px] xl:w-[72px]"
+      className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#ffba54]/75 bg-[radial-gradient(circle_at_48%_28%,#ff8135_0%,#b41a1f_58%,#6f1218_100%)] text-[#fff0bf] shadow-[inset_0_0_18px_rgba(255,212,120,0.18),0_10px_26px_rgba(0,0,0,0.24)] sm:h-14 sm:w-14 lg:h-[4.55rem] lg:w-[4.55rem]"
     >
       <span
-        className="text-[1.7rem] font-bold leading-none tracking-[-0.045em] sm:text-[1.84rem] xl:text-[2.08rem]"
+        className="text-[1.45rem] font-bold leading-none tracking-[-0.04em] sm:text-[1.65rem] lg:text-[2.15rem]"
         style={displaySerifStyle}
       >
         {number}
@@ -270,225 +317,84 @@ function StepNumber({ number, isPresent }) {
   );
 }
 
-function StepCard({ item, index, isPresent, compact = false, className = "" }) {
+function CardDivider({ isPresent, index }) {
+  return (
+    <div className="relative mx-auto mb-3 mt-3 flex w-[58%] max-w-[190px] items-center justify-center sm:mb-4 sm:mt-4">
+      <span className="h-px flex-1 bg-gradient-to-r from-transparent via-[#b83f28]/70 to-[#ffcc58]" />
+      <Motion.span
+        animate={
+          isPresent
+            ? { opacity: [0.62, 1, 0.62], scale: [0.92, 1.12, 0.92] }
+            : { opacity: 0, scale: 0.84 }
+        }
+        transition={
+          isPresent
+            ? { duration: 2.6, delay: index * 0.1, repeat: Infinity, ease: "easeInOut" }
+            : { duration: 0.18 }
+        }
+        className="mx-2 text-[#ffbf45] drop-shadow-[0_0_14px_rgba(255,113,38,0.95)]"
+      >
+        <Star className="h-4 w-4 fill-current" strokeWidth={1.8} />
+      </Motion.span>
+      <span className="h-px flex-1 bg-gradient-to-l from-transparent via-[#b83f28]/70 to-[#ffcc58]" />
+    </div>
+  );
+}
+
+function HistoryCard({ item, index, isPresent }) {
   const Icon = item.icon;
-  const paddingClassName = compact
-    ? "px-4 py-4 sm:px-5"
-    : "px-4 py-3.5 xl:px-5 xl:py-4";
-  const titleClassName = compact
-    ? "text-[1.02rem] leading-[1.22] sm:text-[1.14rem]"
-    : "text-[clamp(1rem,1.08vw,1.38rem)] leading-[1.16]";
-  const iconSizeClassName = compact
-    ? "h-[2.9rem] w-[2.9rem] sm:h-[3.1rem] sm:w-[3.1rem]"
-    : "h-[3rem] w-[3rem] xl:h-[3.45rem] xl:w-[3.45rem]";
 
   return (
     <Motion.article
       custom={index}
       variants={cardVariants}
-      className={`relative overflow-hidden rounded-[1.6rem] border border-[#dfa22e]/85 bg-[linear-gradient(180deg,rgba(10,10,18,0.82),rgba(7,8,15,0.72))] shadow-[0_18px_42px_rgba(0,0,0,0.34),0_0_0_1px_rgba(255,189,98,0.06)] backdrop-blur-[2px] ${paddingClassName} ${className}`}
+      className="relative min-h-[190px] overflow-hidden rounded-[1.35rem] border border-[#ef7c42]/80 bg-[linear-gradient(180deg,rgba(58,16,55,0.72)_0%,rgba(18,19,50,0.82)_50%,rgba(6,14,37,0.78)_100%)] shadow-[0_22px_52px_rgba(0,0,0,0.34),inset_0_0_0_1px_rgba(255,205,110,0.06)] backdrop-blur-[2px] sm:min-h-[235px] sm:rounded-[1.65rem] lg:h-[clamp(22rem,45vh,26.8rem)] lg:min-h-0"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,106,44,0.04),transparent_34%,rgba(42,92,214,0.05)_100%)]" />
-      <div className="pointer-events-none absolute inset-x-[24%] top-0 h-px bg-gradient-to-r from-transparent via-[#ffd589] to-transparent" />
-
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_46%_0%,rgba(255,91,35,0.16),transparent_22%),radial-gradient(circle_at_100%_92%,rgba(42,95,222,0.18),transparent_34%),linear-gradient(135deg,rgba(255,96,44,0.06),transparent_44%,rgba(66,107,255,0.06))]" />
+      <div className="pointer-events-none absolute inset-x-[16%] top-0 h-px bg-gradient-to-r from-transparent via-[#ffd16c] to-transparent" />
       <Motion.span
         animate={
           isPresent
-            ? { opacity: [0.42, 1, 0.42], scaleX: [0.86, 1.08, 0.86] }
+            ? { opacity: [0.42, 1, 0.42], scaleX: [0.82, 1.16, 0.82] }
             : { opacity: 0 }
         }
         transition={
           isPresent
-            ? { duration: 2.8, delay: index * 0.12, repeat: Infinity, ease: "easeInOut" }
+            ? { duration: 2.7, delay: index * 0.14, repeat: Infinity, ease: "easeInOut" }
             : { duration: 0.18 }
         }
-        className="absolute left-1/2 top-0 h-[2px] w-[16%] -translate-x-1/2 rounded-full bg-[#ff9c44] shadow-[0_0_16px_rgba(255,149,72,0.92)]"
+        className="absolute left-1/2 top-0 h-[2px] w-[35%] -translate-x-1/2 rounded-full bg-[#ff8838] shadow-[0_0_18px_rgba(255,123,45,0.95)]"
       />
 
-      <div className="relative z-10 flex h-full items-center gap-3 xl:gap-4">
-        <StepNumber number={item.number} isPresent={isPresent} />
-
-        <span className="h-[56%] w-px shrink-0 bg-gradient-to-b from-transparent via-[#f2be64] to-transparent opacity-75" />
+      <div className="relative z-10 flex h-full flex-col items-center px-3 py-5 text-center sm:px-5 sm:py-6 lg:px-7 lg:py-7">
+        <StepBadge number={item.number} isPresent={isPresent} index={index} />
 
         <Motion.div
           animate={
             isPresent
               ? {
-                  y: [0, -3, 0],
+                  y: [0, -4, 0],
                   opacity: [0.9, 1, 0.9],
                 }
               : { opacity: 0, scale: 0.9 }
           }
           transition={
             isPresent
-              ? { duration: 3.3 + index * 0.22, repeat: Infinity, ease: "easeInOut" }
+              ? { duration: 3.5 + index * 0.22, repeat: Infinity, ease: "easeInOut" }
               : { duration: 0.18 }
           }
-          className={`shrink-0 text-[#f4c54f] ${iconSizeClassName}`}
+          className="flex min-h-0 flex-1 items-center justify-center pt-4 text-[#f6c96f] drop-shadow-[0_0_16px_rgba(255,142,58,0.32)] sm:pt-5 lg:pt-7"
         >
-          <Icon className="h-full w-full" />
+          <Icon className="h-[4.7rem] w-[5.9rem] sm:h-[6rem] sm:w-[7.6rem] lg:h-[8rem] lg:w-[10rem] xl:h-[8.6rem] xl:w-[10.8rem]" />
         </Motion.div>
 
-        <h3 className={`whitespace-pre-line text-left font-medium text-[#f7e6c6] ${titleClassName}`}>
+        <CardDivider isPresent={isPresent} index={index} />
+
+        <h3 className="min-h-[2.95rem] whitespace-pre-line text-center text-[0.88rem] font-medium leading-[1.38] text-[#fff0d2] drop-shadow-[0_4px_18px_rgba(0,0,0,0.38)] sm:min-h-[3.7rem] sm:text-[1.12rem] md:text-[1.28rem] lg:min-h-[5.35rem] lg:text-[clamp(1.14rem,1.72vw,1.95rem)]">
           {item.title}
         </h3>
       </div>
     </Motion.article>
-  );
-}
-
-function DesktopTimeline({ isPresent }) {
-  const strokeId = useId().replace(/:/g, "");
-  const glowId = useId().replace(/:/g, "");
-
-  const segments = [
-    { d: "M404 418 H434 L468 350", delay: 0.1 },
-    { d: "M803 338 H836 L870 270", delay: 0.22 },
-    { d: "M1180 258 H1210 L1244 190", delay: 0.34 },
-    { d: "M1604 178 H1626 L1660 118", delay: 0.46 },
-  ];
-
-  const dots = [
-    { cx: 468, cy: 350, delay: 0.16 },
-    { cx: 870, cy: 270, delay: 0.28 },
-    { cx: 1244, cy: 190, delay: 0.4 },
-  ];
-
-  return (
-    <Motion.svg
-      initial={{ opacity: 0 }}
-      animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
-      transition={isPresent ? { duration: 0.42 } : { duration: 0.18 }}
-      viewBox="0 0 1660 620"
-      preserveAspectRatio="none"
-      className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block"
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id={strokeId} x1="404" y1="418" x2="1660" y2="118" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#ff8f42" />
-          <stop offset="0.46" stopColor="#ffd278" />
-          <stop offset="1" stopColor="#ffb657" />
-        </linearGradient>
-        <filter id={glowId} x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="5" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
-      {segments.map((segment) => (
-        <Motion.path
-          key={segment.d}
-          initial={{ pathLength: 0, opacity: 0.32 }}
-          animate={isPresent ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-          transition={
-            isPresent
-              ? { duration: 0.52, delay: segment.delay, ease: [0.22, 1, 0.36, 1] }
-              : { duration: 0.18 }
-          }
-          d={segment.d}
-          fill="none"
-          stroke={`url(#${strokeId})`}
-          strokeWidth="2.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          filter={`url(#${glowId})`}
-        />
-      ))}
-
-      {dots.map((dot) => (
-        <Motion.circle
-          key={`${dot.cx}-${dot.cy}`}
-          animate={
-            isPresent
-              ? {
-                  opacity: [0.58, 1, 0.58],
-                  scale: [0.92, 1.15, 0.92],
-                }
-              : { opacity: 0, scale: 0.82 }
-          }
-          transition={
-            isPresent
-              ? { duration: 2.3, delay: dot.delay, repeat: Infinity, ease: "easeInOut" }
-              : { duration: 0.18 }
-          }
-          cx={dot.cx}
-          cy={dot.cy}
-          r="8"
-          fill="#f0b64a"
-          filter={`url(#${glowId})`}
-        />
-      ))}
-
-      <Motion.g
-        animate={
-          isPresent
-            ? {
-                opacity: [0.74, 1, 0.74],
-                x: [0, 3, 0],
-                y: [0, -2, 0],
-              }
-            : { opacity: 0, x: -6, y: 4 }
-        }
-        transition={
-          isPresent
-            ? { duration: 2.6, repeat: Infinity, ease: "easeInOut" }
-            : { duration: 0.18 }
-        }
-        filter={`url(#${glowId})`}
-      >
-        <path d="M1630 112 1658 100 1640 126 1636 113 1630 112Z" fill="#ffd26e" />
-      </Motion.g>
-    </Motion.svg>
-  );
-}
-
-function MobileTimeline({ isPresent }) {
-  return (
-    <div className="relative mt-8 flex flex-col gap-4 lg:hidden">
-      <div className="pointer-events-none absolute left-[1.95rem] top-10 bottom-10 w-px bg-gradient-to-b from-[#ff8c42] via-[#f2c45d] to-[#295bde]" />
-
-      {cardItems.map((item, index) => (
-        <div key={item.number} className="relative ml-6">
-          <Motion.span
-            animate={
-              isPresent
-                ? { opacity: [0.55, 1, 0.55], scale: [0.92, 1.16, 0.92] }
-                : { opacity: 0, scale: 0.82 }
-            }
-            transition={
-              isPresent
-                ? { duration: 2.4, delay: 0.14 + index * 0.12, repeat: Infinity, ease: "easeInOut" }
-                : { duration: 0.18 }
-            }
-            className="absolute left-[-1.7rem] top-[2.85rem] h-3 w-3 -translate-x-1/2 rounded-full bg-[#f0b64a] shadow-[0_0_14px_rgba(240,182,74,0.92)]"
-          />
-
-          <StepCard item={item} index={index} isPresent={isPresent} compact className="min-h-[118px]" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DesktopStage({ isPresent }) {
-  return (
-    <div className="relative hidden h-full w-full min-h-0 lg:block">
-      <DesktopTimeline isPresent={isPresent} />
-
-      {cardItems.map((item, index) => (
-        <StepCard
-          key={item.number}
-          item={item}
-          index={index}
-          isPresent={isPresent}
-          className={`absolute ${item.desktopClassName}`}
-        />
-      ))}
-    </div>
   );
 }
 
@@ -509,8 +415,9 @@ export default function SocialistHistoryDemocracySlide() {
         className="absolute inset-0 h-full w-full object-cover"
       />
 
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,6,17,0.34),rgba(3,6,17,0.24)_24%,rgba(3,6,17,0.1)_54%,rgba(3,6,17,0.34))]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_65%,rgba(255,76,20,0.12),transparent_26%),radial-gradient(circle_at_86%_64%,rgba(42,101,230,0.14),transparent_24%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.2)_0%,rgba(3,8,27,0.2)_42%,rgba(2,6,18,0.42)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_17%_68%,rgba(255,64,22,0.1),transparent_26%),radial-gradient(circle_at_83%_61%,rgba(46,98,232,0.13),transparent_28%),radial-gradient(circle_at_50%_18%,rgba(9,18,54,0.44),transparent_48%)]" />
+      <DecorativeArcs />
 
       {ambientDots.map((dot) => (
         <Motion.span
@@ -518,7 +425,7 @@ export default function SocialistHistoryDemocracySlide() {
           animate={
             isPresent
               ? {
-                  opacity: [0.24, 1, 0.24],
+                  opacity: [0.22, 1, 0.22],
                   scale: [0.82, 1.16, 0.82],
                 }
               : { opacity: 0 }
@@ -532,11 +439,11 @@ export default function SocialistHistoryDemocracySlide() {
         />
       ))}
 
-      <div className="relative z-10 mx-auto flex h-full w-full max-w-[1700px] flex-col px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <div className="flex flex-col items-center pt-[2.6vh]">
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[1600px] flex-col px-4 py-5 sm:px-7 sm:py-7 lg:px-10">
+        <div className="flex flex-col items-center pt-[clamp(1.35rem,11.5vh,7.7rem)]">
           <Motion.div variants={titleVariants} className="w-full">
             <h1
-              className="mx-auto max-w-[1480px] px-2 text-center text-[clamp(2.35rem,5vw,5.8rem)] font-bold leading-[0.94] tracking-[-0.05em] text-transparent drop-shadow-[0_10px_26px_rgba(0,0,0,0.45)] bg-[linear-gradient(180deg,#fff1b2_0%,#ffd46e_36%,#f3b846_66%,#c67a19_100%)] bg-clip-text"
+              className="mx-auto max-w-[1540px] bg-[linear-gradient(180deg,#fff5c9_0%,#ffe197_27%,#ffb84f_62%,#e97924_100%)] bg-clip-text px-1 text-center text-[clamp(2.05rem,4.85vw,5.35rem)] font-bold leading-[0.96] tracking-[-0.045em] text-transparent drop-shadow-[0_10px_28px_rgba(255,120,44,0.14)] xl:whitespace-nowrap"
               style={displaySerifStyle}
             >
               Dân chủ xã hội chủ nghĩa trong lịch sử
@@ -546,9 +453,10 @@ export default function SocialistHistoryDemocracySlide() {
           <TitleDivider isPresent={isPresent} />
         </div>
 
-        <div className="relative mt-5 min-h-0 flex-1 sm:mt-6 lg:mt-8">
-          <MobileTimeline isPresent={isPresent} />
-          <DesktopStage isPresent={isPresent} />
+        <div className="mt-[clamp(1.8rem,7.2vh,5.8rem)] grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 xl:gap-7">
+          {cardItems.map((item, index) => (
+            <HistoryCard key={item.number} item={item} index={index} isPresent={isPresent} />
+          ))}
         </div>
       </div>
     </Motion.section>

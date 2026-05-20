@@ -9,6 +9,8 @@ import PrimitiveSocietyDemocracySlide from "../components/slides/PrimitiveSociet
 import SlaveSocietyDemocracySlide from "../components/slides/SlaveSocietyDemocracySlide";
 import BourgeoisDemocracySlide from "../components/slides/BourgeoisDemocracySlide";
 import SocialistHistoryDemocracySlide from "../components/slides/SocialistHistoryDemocracySlide";
+import DemocracyMeaningSlide from "../components/slides/DemocracyMeaningSlide";
+import ConclusionSlide from "../components/slides/ConclusionSlide";
 
 export const slideManifest = [
   {
@@ -98,5 +100,21 @@ export const slideManifest = [
     allowScroll: true,
     status: "ready",
     referenceAsset: "socialist-history-democracy-v1",
+  },
+  {
+    id: "content-11",
+    label: "Ý nghĩa dân chủ",
+    component: DemocracyMeaningSlide,
+    allowScroll: true,
+    status: "ready",
+    referenceAsset: "democracy-meaning-v1",
+  },
+  {
+    id: "content-12",
+    label: "Kết luận",
+    component: ConclusionSlide,
+    allowScroll: true,
+    status: "ready",
+    referenceAsset: "conclusion-v1",
   },
 ];

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion as Motion } from "framer-motion";
 import {
   ChevronLeft,
@@ -34,14 +34,25 @@ const statusLabels = {
   placeholder: "Placeholder",
 };
 
-const NAV_IDLE_MS = 2400;
+const BAR_IDLE_MS = 1200;
+const TOP_REVEAL_EDGE = 96;
+const BOTTOM_REVEAL_EDGE = 128;
+
+function clearIdleTimer(timerRef) {
+  if (timerRef.current) {
+    window.clearTimeout(timerRef.current);
+    timerRef.current = null;
+  }
+}
 
 export default function SlideDeck({ slides = [] }) {
   const deckRef = useRef(null);
-  const navRef = useRef(null);
-  const idleTimerRef = useRef(null);
-  const [isNavVisible, setIsNavVisible] = useState(true);
-  const [isNavPinned, setIsNavPinned] = useState(false);
+  const topIdleTimerRef = useRef(null);
+  const bottomIdleTimerRef = useRef(null);
+  const [isTopBarVisible, setIsTopBarVisible] = useState(false);
+  const [isBottomBarVisible, setIsBottomBarVisible] = useState(false);
+  const [isTopBarPinned, setIsTopBarPinned] = useState(false);
+  const [isBottomBarPinned, setIsBottomBarPinned] = useState(false);
 
   const {
     currentIndex,
@@ -60,60 +71,120 @@ export default function SlideDeck({ slides = [] }) {
   const counter = `${String(currentIndex + 1).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}`;
   const fullscreenLabel = isFullscreen ? "Exit Fullscreen" : "Fullscreen";
 
-  useEffect(() => {
-    const clearIdleTimer = () => {
-      if (idleTimerRef.current) {
-        window.clearTimeout(idleTimerRef.current);
-        idleTimerRef.current = null;
-      }
-    };
+  const clearTopIdleTimer = useCallback(() => {
+    clearIdleTimer(topIdleTimerRef);
+  }, []);
 
-    const scheduleHide = () => {
-      clearIdleTimer();
+  const clearBottomIdleTimer = useCallback(() => {
+    clearIdleTimer(bottomIdleTimerRef);
+  }, []);
 
-      if (isNavPinned) {
+  const scheduleTopHide = useCallback(
+    (force = false) => {
+      clearTopIdleTimer();
+
+      if (!force && isTopBarPinned) {
         return;
       }
 
-      idleTimerRef.current = window.setTimeout(() => {
-        setIsNavVisible(false);
-      }, NAV_IDLE_MS);
-    };
+      topIdleTimerRef.current = window.setTimeout(() => {
+        setIsTopBarVisible(false);
+        topIdleTimerRef.current = null;
+      }, BAR_IDLE_MS);
+    },
+    [clearTopIdleTimer, isTopBarPinned]
+  );
 
-    const revealNav = () => {
-      setIsNavVisible(true);
-      scheduleHide();
+  const scheduleBottomHide = useCallback(
+    (force = false) => {
+      clearBottomIdleTimer();
+
+      if (!force && isBottomBarPinned) {
+        return;
+      }
+
+      bottomIdleTimerRef.current = window.setTimeout(() => {
+        setIsBottomBarVisible(false);
+        bottomIdleTimerRef.current = null;
+      }, BAR_IDLE_MS);
+    },
+    [clearBottomIdleTimer, isBottomBarPinned]
+  );
+
+  const revealTopBar = useCallback(
+    ({ temporary = false } = {}) => {
+      clearTopIdleTimer();
+      setIsTopBarVisible(true);
+
+      if (temporary && !isTopBarPinned) {
+        scheduleTopHide();
+      }
+    },
+    [clearTopIdleTimer, isTopBarPinned, scheduleTopHide]
+  );
+
+  const revealBottomBar = useCallback(
+    ({ temporary = false } = {}) => {
+      clearBottomIdleTimer();
+      setIsBottomBarVisible(true);
+
+      if (temporary && !isBottomBarPinned) {
+        scheduleBottomHide();
+      }
+    },
+    [clearBottomIdleTimer, isBottomBarPinned, scheduleBottomHide]
+  );
+
+  useEffect(() => {
+    const revealBars = () => {
+      revealTopBar({ temporary: true });
+      revealBottomBar({ temporary: true });
     };
 
     const handlePointerMove = (event) => {
-      if (window.innerWidth >= 1024 && event.clientY > window.innerHeight - 120) {
-        revealNav();
-        return;
+      const isNearTop = event.clientY <= TOP_REVEAL_EDGE;
+      const isNearBottom = event.clientY >= window.innerHeight - BOTTOM_REVEAL_EDGE;
+
+      if (isNearTop) {
+        revealTopBar();
+      } else {
+        scheduleTopHide();
       }
 
-      revealNav();
+      if (isNearBottom) {
+        revealBottomBar();
+      } else {
+        scheduleBottomHide();
+      }
     };
 
     const handleTouchStart = () => {
-      revealNav();
+      revealBars();
     };
 
     const handleKeyDown = () => {
-      revealNav();
+      revealBars();
     };
 
-    revealNav();
     window.addEventListener("mousemove", handlePointerMove, { passive: true });
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      clearIdleTimer();
+      clearTopIdleTimer();
+      clearBottomIdleTimer();
       window.removeEventListener("mousemove", handlePointerMove);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [currentIndex, isNavPinned]);
+  }, [
+    clearBottomIdleTimer,
+    clearTopIdleTimer,
+    revealBottomBar,
+    revealTopBar,
+    scheduleBottomHide,
+    scheduleTopHide,
+  ]);
 
   if (!activeSlide || !ActiveSlideComponent) {
     return null;
@@ -124,8 +195,63 @@ export default function SlideDeck({ slides = [] }) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(150,25,17,0.34),transparent_32%),radial-gradient(circle_at_82%_18%,rgba(33,74,194,0.2),transparent_26%),linear-gradient(135deg,#27050c_0%,#15040d_48%,#0b122f_100%)]" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-[radial-gradient(circle_at_bottom,rgba(198,69,26,0.22),transparent_52%)]" />
 
-      <div className="relative flex h-full flex-col">
-        <header className="pointer-events-none absolute inset-x-0 top-0 z-20 px-4 pt-4 sm:px-6 lg:px-8">
+      <div className="relative h-full">
+        <div className="absolute inset-0 overflow-hidden">
+          <AnimatePresence initial={false} mode="wait" custom={direction}>
+            <Motion.section
+              key={activeSlide.id}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0"
+            >
+              <div
+                className={`h-full w-full overscroll-contain ${
+                  activeSlide.allowScroll ? "overflow-y-auto" : "overflow-hidden"
+                }`}
+              >
+                <ActiveSlideComponent
+                  slide={activeSlide}
+                  currentIndex={currentIndex}
+                  totalSlides={totalSlides}
+                />
+              </div>
+            </Motion.section>
+          </AnimatePresence>
+        </div>
+
+        <Motion.header
+          initial={false}
+          animate={{
+            y: isTopBarVisible ? "0%" : "-120%",
+            opacity: isTopBarVisible ? 1 : 0,
+          }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          onMouseEnter={() => {
+            clearTopIdleTimer();
+            setIsTopBarPinned(true);
+            setIsTopBarVisible(true);
+          }}
+          onMouseLeave={() => {
+            setIsTopBarPinned(false);
+            scheduleTopHide(true);
+          }}
+          onFocusCapture={() => {
+            clearTopIdleTimer();
+            setIsTopBarPinned(true);
+            setIsTopBarVisible(true);
+          }}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              setIsTopBarPinned(false);
+              scheduleTopHide(true);
+            }
+          }}
+          className="absolute inset-x-0 top-0 z-20 px-4 pt-4 sm:px-6 lg:px-8"
+        >
           <div className="mx-auto flex max-w-[1680px] items-center justify-between gap-4">
             <div className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-[#e3af61]/30 bg-[#12030b]/55 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#f5d7a0] backdrop-blur-xl sm:text-sm">
               <span className="h-2 w-2 rounded-full bg-[#f4bc6d] shadow-[0_0_12px_rgba(244,188,109,0.9)]" />
@@ -163,61 +289,33 @@ export default function SlideDeck({ slides = [] }) {
               </button>
             </div>
           </div>
-        </header>
-
-        <div className="relative flex-1 overflow-hidden px-2 pb-32 pt-16 sm:px-4 sm:pb-36 sm:pt-20 lg:px-6 lg:pb-40">
-          <div className="relative mx-auto h-full max-w-[1700px]">
-            <AnimatePresence initial={false} mode="wait" custom={direction}>
-              <Motion.section
-                key={activeSlide.id}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0"
-              >
-                <div className="h-full overflow-hidden rounded-[2rem] border border-[#d39a52]/40 bg-[linear-gradient(180deg,rgba(18,4,12,0.82),rgba(8,6,18,0.86))] shadow-[0_24px_80px_rgba(0,0,0,0.42)] ring-1 ring-[#f1c277]/10">
-                  <div
-                    className={`h-full overscroll-contain ${
-                      activeSlide.allowScroll ? "overflow-y-auto" : "overflow-hidden"
-                    }`}
-                  >
-                    <ActiveSlideComponent
-                      slide={activeSlide}
-                      currentIndex={currentIndex}
-                      totalSlides={totalSlides}
-                    />
-                  </div>
-                </div>
-              </Motion.section>
-            </AnimatePresence>
-          </div>
-        </div>
+        </Motion.header>
 
         <Motion.nav
-          ref={navRef}
           initial={false}
           animate={{
-            y: isNavVisible ? 0 : 96,
-            opacity: isNavVisible ? 1 : 0.72,
+            y: isBottomBarVisible ? "0%" : "110%",
+            opacity: isBottomBarVisible ? 1 : 0,
           }}
           transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
           onMouseEnter={() => {
-            setIsNavPinned(true);
-            setIsNavVisible(true);
+            clearBottomIdleTimer();
+            setIsBottomBarPinned(true);
+            setIsBottomBarVisible(true);
           }}
           onMouseLeave={() => {
-            setIsNavPinned(false);
+            setIsBottomBarPinned(false);
+            scheduleBottomHide(true);
           }}
           onFocusCapture={() => {
-            setIsNavPinned(true);
-            setIsNavVisible(true);
+            clearBottomIdleTimer();
+            setIsBottomBarPinned(true);
+            setIsBottomBarVisible(true);
           }}
           onBlurCapture={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget)) {
-              setIsNavPinned(false);
+              setIsBottomBarPinned(false);
+              scheduleBottomHide(true);
             }
           }}
           className="absolute inset-x-0 bottom-0 z-20 px-4 pb-4 sm:px-6 lg:px-8"
