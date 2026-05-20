@@ -35,15 +35,15 @@ const nodeItems = [
     icon: HandFist,
   },
   {
-    title: "Nguyên tắc\nhoạt động\nchính trị - xã hội",
+    title: " phương diện quyền lực",
     icon: Scale,
   },
   {
-    title: "Hình thức\ntổ chức\nnhà nước",
+    title: " phương diện chế độ xã hội và\nlĩnh vực chính trị",
     icon: Building2,
   },
   {
-    title: "Phụ thuộc vào\ngiai cấp\ncầm quyền",
+    title: "phương diện tổ chức và\nquản lý xã hội",
     icon: Star,
   },
 ];
