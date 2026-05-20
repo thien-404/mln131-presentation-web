@@ -7,6 +7,8 @@ import SocialistDemocracySlide from "../components/slides/SocialistDemocracySlid
 import PartyAwarenessSlide from "../components/slides/PartyAwarenessSlide";
 import PrimitiveSocietyDemocracySlide from "../components/slides/PrimitiveSocietyDemocracySlide";
 import SlaveSocietyDemocracySlide from "../components/slides/SlaveSocietyDemocracySlide";
+import BourgeoisDemocracySlide from "../components/slides/BourgeoisDemocracySlide";
+import SocialistHistoryDemocracySlide from "../components/slides/SocialistHistoryDemocracySlide";
 
 export const slideManifest = [
   {
@@ -80,5 +82,21 @@ export const slideManifest = [
     allowScroll: true,
     status: "ready",
     referenceAsset: "slave-society-democracy-v1",
+  },
+  {
+    id: "content-09",
+    label: "Tư sản",
+    component: BourgeoisDemocracySlide,
+    allowScroll: true,
+    status: "ready",
+    referenceAsset: "bourgeois-democracy-v1",
+  },
+  {
+    id: "content-10",
+    label: "Lịch sử XHCN",
+    component: SocialistHistoryDemocracySlide,
+    allowScroll: true,
+    status: "ready",
+    referenceAsset: "socialist-history-democracy-v1",
   },
 ];

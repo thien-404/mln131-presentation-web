@@ -136,6 +136,24 @@ function SlaveSocietyBackdrop() {
   );
 }
 
+function BourgeoisBackdrop() {
+  return (
+    <>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_62%,rgba(255,92,26,0.22),transparent_28%),radial-gradient(circle_at_84%_24%,rgba(46,99,226,0.16),transparent_22%),linear-gradient(135deg,#25060c_0%,#120612_42%,#07152f_100%)]" />
+      <div className="absolute inset-y-0 left-0 w-[42%] bg-[linear-gradient(90deg,rgba(62,10,10,0.22),transparent)]" />
+      <div className="absolute inset-y-0 right-0 w-[36%] bg-[linear-gradient(270deg,rgba(8,24,70,0.16),transparent)]" />
+      <div className="absolute right-[-6%] top-[-8%] hidden h-[46%] w-[32%] rounded-full border border-[#446dff]/10 lg:block" />
+      <div className="absolute right-[0%] top-[0%] hidden h-[36%] w-[24%] rounded-full border border-[#446dff]/8 lg:block" />
+      <div className="absolute bottom-[-12%] left-[-6%] hidden h-[46%] w-[34%] rounded-full border border-[#ff6e32]/12 lg:block" />
+      <div className="absolute bottom-[-6%] left-[0%] hidden h-[34%] w-[24%] rounded-full border border-[#ff6e32]/8 lg:block" />
+      <svg viewBox="0 0 1680 945" className="absolute inset-0 h-full w-full" aria-hidden="true">
+        <path d="M78 810C236 768 344 864 504 854C664 844 754 786 910 794C1066 802 1188 876 1350 862C1486 850 1564 804 1604 812" fill="none" stroke="#ff6d31" strokeWidth="2.4" opacity="0.22" />
+        <path d="M1038 160C1162 146 1284 206 1400 194C1498 184 1566 150 1612 120" fill="none" stroke="#496fff" strokeWidth="1.8" opacity="0.16" />
+      </svg>
+    </>
+  );
+}
+
 const backdropMap = {
   opening: OpeningBackdrop,
   concept: ConceptBackdrop,
@@ -146,6 +164,7 @@ const backdropMap = {
   party: PartyBackdrop,
   primitive: PrimitiveBackdrop,
   slaveSociety: SlaveSocietyBackdrop,
+  bourgeois: BourgeoisBackdrop,
 };
 
 export default function SlideBackdrop({ variant = "opening" }) {
